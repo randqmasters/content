@@ -1,0 +1,188 @@
+name: VersaDirector
+display: 'VersaDirector'
+description: '[Enter a comprehensive, yet concise, description of what the integration does, what use cases it is designed for, etc.]'
+category: Network Security
+commonfields:
+  id: VersaDirector
+  version: -1
+
+configuration:
+- defaultvalue: https://example.com/
+  display: Your server URL
+  name: url
+  required: true
+  type: 0
+- display: Organization Name
+  name: organization_name
+  required: false
+  type: 0
+- display: Username
+  additionalinfo: The API Key to use for connection
+  name: credentials
+  required: true
+  hiddenusername: false
+  type: 9
+- display: Trust any certificate (not secure)
+  name: insecure
+  required: false
+  type: 8
+- display: Use system proxy settings
+  name: proxy
+  required: false
+  type: 8
+
+script:
+  commands:
+  - name: vd-organization-appliance-list
+    description: 'List all devices associated with a specific organization.'
+    arguments:
+    - name: organization_name
+      description: ''
+      required: false
+      isArray: false
+    - name: page
+      description: ''
+      required: false
+      isArray: false
+    - name: page_size
+      description: ''
+      required: false
+      isArray: false
+    - name: limit
+      description: ''
+      required: false
+      isArray: false
+    outputs:
+    - contextPath: VersaDirector.Appliance
+      type: string
+  - name: vd-organization-list
+    description: 'List all organizations/tenants.'
+    arguments:
+    - name: page
+      description: ''
+      required: false
+      isArray: false
+    - name: page_size
+      description: ''
+      required: false
+      isArray: false
+    - name: limit
+      description: ''
+      required: false
+      isArray: false
+    outputs:
+    - type: String
+      contextPath: Versa.ListOrganizations.name
+      description: ''
+    - type: String
+      contextPath: Versa.ListOrganizations.uuid
+      description: ''
+    - type: String
+      contextPath: Versa.ListOrganizations.parent
+      description: ''
+    - type: String
+      contextPath: Versa.ListOrganizations.subscriptionPlan
+      description: ''
+    - type: Number
+      contextPath: Versa.ListOrganizations.id
+      description: ''
+    - type: String
+      contextPath: Versa.ListOrganizations.authType
+      description: ''
+    - type: String
+      contextPath: Versa.ListOrganizations.cpeDeploymentType
+      description: ''
+    - type: String
+      contextPath: Versa.ListOrganizations.appliances.applianceuuid
+      description: ''
+    - type: Number
+      contextPath: Versa.ListOrganizations.vrfsGroups.id
+      description: ''
+    - type: Number
+      contextPath: Versa.ListOrganizations.vrfsGroups.vrfId
+      description: ''
+    - type: String
+      contextPath: Versa.ListOrganizations.vrfsGroups.name
+      description: ''
+    - type: String
+      contextPath: Versa.ListOrganizations.vrfsGroups.description
+      description: ''
+    - type: Boolean
+      contextPath: Versa.ListOrganizations.vrfsGroups.enable_vpn
+      description: ''
+    - type: Number
+      contextPath: Versa.ListOrganizations.wanNetworkGroups.id
+      description: ''
+    - type: String
+      contextPath: Versa.ListOrganizations.wanNetworkGroups.name
+      description: ''
+    - type: String
+      contextPath: Versa.ListOrganizations.wanNetworkGroups.description
+      description: ''
+    - type: String
+      contextPath: Versa.ListOrganizations.wanNetworkGroups.transport-domains
+      description: ''
+    - type: String
+      contextPath: Versa.ListOrganizations.analyticsClusters
+      description: ''
+    - type: Boolean
+      contextPath: Versa.ListOrganizations.sharedControlPlane
+      description: ''
+    - type: Boolean
+      contextPath: Versa.ListOrganizations.blockInterRegionRouting
+      description: ''
+  - name: vd-appliance-list
+    description: 'List all available appliances for all organizations/tenants, with a limit of max 25 appliances per organization.'
+    arguments:
+    - name: page
+      description: ''
+      required: false
+      isArray: false
+    - name: page_size
+      description: ''
+      required: false
+      isArray: false
+    - name: limit
+      description: ''
+      required: false
+      isArray: false
+    outputs:
+    - type: String
+      contextPath: Versa.ListAppliancesBasicDetailsGlobal.appliance-list.name
+      description: ''
+    - type: String
+      contextPath: Versa.ListAppliancesBasicDetailsGlobal.appliance-list.uuid
+      description: ''
+    - type: String
+      contextPath: Versa.ListAppliancesBasicDetailsGlobal.appliance-list.ipAddress
+      description: ''
+    - type: String
+      contextPath: Versa.ListAppliancesBasicDetailsGlobal.appliance-list.appType
+      description: ''
+    - type: Number
+      contextPath: Versa.ListAppliancesBasicDetailsGlobal.appliance-list.branchId
+      description: ''
+  - arguments:
+    - default: false
+      description: '[Enter a description of the argument, including any important information users need to know, for example, default values.]'
+      isArray: false
+      name: dummy
+      required: true
+      secret: false
+    deprecated: false
+    description: ''
+    execution: false
+    name: baseintegration-dummy
+    outputs:
+    - contextPath: BaseIntegration.Output
+      description: '[Enter a description of the data returned in this output.]'
+      type: String
+  isfetch: false
+  runonce: false
+  script: '-'
+  type: python
+  subtype: python3
+  dockerimage: demisto/python3:3.10.5.31797
+fromversion: 8.0.0
+tests:
+- No tests (auto formatted)
